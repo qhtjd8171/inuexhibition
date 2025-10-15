@@ -31,13 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // ================== 라이트박스 갤러리 ==================
 
 // (1) 선택: 수동 매핑(예: Our Run 유지)
-const galleries = {
-  photo1: [
-    'photo1/2.jpg',
-    'photo1/2-1.jpg',
-    'photo1/2-2.jpg'
-  ]
-};
+
 
 // (2) 이미지 존재 여부 검사: load / error 이벤트 활용
 function imageExists(src) {
@@ -55,7 +49,7 @@ async function discoverSequence(folder, {
   max = 200,
   start = 1,
   pads = [2, 1, 3],              // 01, 1, 001 순서
-  exts = ['png', 'jpg', 'jpeg', 'webp']
+  exts = ['png', 'jpg']
 } = {}) {
   const list = [];
   let misses = 0;                // 연속 실패 카운트(3회면 종료)
@@ -211,8 +205,7 @@ function deriveFolderFromCard(card) {
   // 01.png → 1.png → 001.png, 없으면 jpg/jpeg/webp 순으로 시도
   async function findThumb(folder){
     const tries = [
-      `${folder}/01.png`, `${folder}/1.png`, `${folder}/001.png`,
-      `${folder}/01.jpg`, `${folder}/01.jpeg`, `${folder}/01.webp`
+      `${folder}/01.png`, `${folder}/01.jpg`
     ];
     for(const src of tries){
       if(await imageExists(src)) return src;
