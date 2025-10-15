@@ -27,52 +27,43 @@ document.addEventListener('DOMContentLoaded', () => {
   if (initial) initial.click();
 });
 
-
 // ================== 라이트박스 갤러리 ==================
 
-// (1) 선택: 수동 매핑(예: Our Run 유지)
-
-
-// (2) 이미지 존재 여부 검사: load / error 이벤트 활용
-function imageExists(src) {
+// (1) 안전한 이미지 존재 검사
+function imageExists(src, { cacheBust = false } = {}) {
   return new Promise(resolve => {
     const im = new Image();
-    im.addEventListener('load', () => resolve(true), { once: true });
-    im.addEventListener('error', () => resolve(false), { once: true });
-    im.src = src + (src.includes('?') ? '&' : '?') + 'v=' + Date.now(); // 캐시 회피
+    im.onload = () => resolve(true);
+    im.onerror = () => resolve(false);
+    im.src = cacheBust ? (src + (src.includes('?') ? '&' : '?') + 'v=' + Date.now()) : src;
   });
 }
 
-// (3) 폴더 내 연속 이미지 자동 탐색
-// 폴더/01.png, 02.png … 우선 시도, 없으면 jpg/jpeg/webp도 탐색
+// (2) 파일 구조에 맞춘 자동 탐색
+// 기본 가정: 2자리 패딩(01..), 단일 확장자만 사용(.png 또는 .jpg)
 async function discoverSequence(folder, {
-  max = 200,
+  max = 50,
   start = 1,
-  pads = [2, 1, 3],              // 01, 1, 001 순서
-  exts = ['png', 'jpg']
+  pad = 2,
+  ext = 'png' // 필요 시 'jpg'로 변경
 } = {}) {
   const list = [];
-  let misses = 0;                // 연속 실패 카운트(3회면 종료)
+  let misses = 0; // 연속 실패 2회면 종료(존재 구간이 끝난 것으로 간주)
 
-  for (let n = start; n <= max && misses < 3; n++) {
-    let hit = false;
-
-    for (const pad of pads) {
-      const num = String(n).padStart(pad, '0');
-      for (const ext of exts) {
-        const src = `${folder}/${num}.${ext}`;
-        if (await imageExists(src)) { list.push(src); hit = true; break; }
-      }
-      if (hit) break;
+  for (let n = start; n <= max && misses < 2; n++) {
+    const num = String(n).padStart(pad, '0');
+    const src = `${folder}/${num}.${ext}`;
+    if (await imageExists(src)) {
+      list.push(src);
+      misses = 0;
+    } else {
+      misses++;
     }
-
-    misses = hit ? 0 : (misses + 1);
   }
-
   return list;
 }
 
-// (4) data-gallery가 없을 때 자동 유추(제품: product/졸업전시도록_이름)
+// (3) data-gallery가 없을 때 자동 유추(제품: product/졸업전시하도록_이름)
 function deriveFolderFromCard(card) {
   const cat = card.dataset.category?.toLowerCase();
   const name = card.querySelector('p')?.textContent?.trim();
@@ -80,148 +71,146 @@ function deriveFolderFromCard(card) {
   return null;
 }
 
-(function(){
+(function () {
   const lb = document.getElementById('lightbox');
   const img = document.getElementById('lb-image');
   const titleEl = document.getElementById('lb-title');
-  const descEl  = document.getElementById('lb-desc');
-  const idxEl   = document.getElementById('lb-idx');
+  const descEl = document.getElementById('lb-desc');
+  const idxEl = document.getElementById('lb-idx');
   const totalEl = document.getElementById('lb-total');
-  const thumbs  = document.getElementById('lb-thumbs');
+  const thumbs = document.getElementById('lb-thumbs');
   const btnPrev = lb.querySelector('.lb-prev');
   const btnNext = lb.querySelector('.lb-next');
-  const btnClose= lb.querySelector('.lb-close');
+  const btnClose = lb.querySelector('.lb-close');
 
-  let cur = { key:null, list:[], i:0 };
+  let cur = { key: null, list: [], i: 0 };
 
   // 카드 클릭 → 갤러리 오픈
-  document.addEventListener('click', async (e)=>{
+  document.addEventListener('click', async (e) => {
     const card = e.target.closest('.project-item');
-    if(!card) return;
+    if (!card) return;
 
-    // 우선순위: 명시적 data-gallery → 자동 유추
     const folderOrKey = card.dataset.gallery || deriveFolderFromCard(card);
-    if(!folderOrKey) return;
+    if (!folderOrKey) return;
 
-    // 1) 수동 매핑에 있으면 사용
-    let list = galleries[folderOrKey]?.slice();
+    // 우선순위: data-images > window.galleries > 자동 탐색
+    let list = null;
+    if (card.dataset.images) {
+      try {
+        const arr = JSON.parse(card.dataset.images);
+        if (Array.isArray(arr) && arr.length) list = arr;
+      } catch {}
+    }
+    if (!list && window.galleries && window.galleries[folderOrKey]) {
+      list = window.galleries[folderOrKey].slice();
+    }
+    if (!list) {
+      // 폴더별 실제 확장자 선택: png 우선, 없으면 jpg
+      const firstPng = await imageExists(`${folderOrKey}/01.png`);
+      const ext = firstPng ? 'png' : 'jpg';
+      list = await discoverSequence(folderOrKey, { ext, pad: 2, max: 50 });
+    }
 
-    // 2) 없으면 폴더에서 자동 탐색(01.png…)
-    if(!list) list = await discoverSequence(folderOrKey);
-
-    if(!list.length) return;
+    if (!list || !list.length) return;
 
     openLB({
       list,
       title: card.dataset.title || card.querySelector('h3')?.textContent || '',
-      desc:  card.dataset.desc  || card.querySelector('p')?.textContent  || ''
+      desc: card.dataset.desc || card.querySelector('p')?.textContent || ''
     });
   });
 
-  function openLB({list, title, desc, start=0}){
-    cur.key  = title;
+  function openLB({ list, title, desc, start = 0 }) {
+    cur.key = title;
     cur.list = list;
-    cur.i    = Math.max(0, Math.min(start, cur.list.length-1));
+    cur.i = Math.max(0, Math.min(start, cur.list.length - 1));
     titleEl.textContent = title;
-    descEl.textContent  = desc;
+    descEl.textContent = desc;
     totalEl.textContent = String(cur.list.length);
     buildThumbs();
     show(cur.i);
     lb.classList.add('open');
-    lb.setAttribute('aria-hidden','false');
+    lb.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
   }
 
-  function closeLB(){
+  function closeLB() {
     lb.classList.remove('open');
-    lb.setAttribute('aria-hidden','true');
+    lb.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
   }
 
-  function show(i){
+  function show(i) {
     cur.i = (i + cur.list.length) % cur.list.length;
     const src = cur.list[cur.i];
+    img.decoding = 'async';
+    img.loading = 'eager';
     img.src = src;
-    img.alt = `${cur.key} - ${cur.i+1}`;
+    img.alt = `${cur.key} - ${cur.i + 1}`;
     idxEl.textContent = String(cur.i + 1);
     highlight(cur.i);
-    preload(cur.list[(cur.i+1)%cur.list.length]);
-    preload(cur.list[(cur.i-1+cur.list.length)%cur.list.length]);
+    preload(cur.list[(cur.i + 1) % cur.list.length]);
   }
 
-  function preload(src){ const p = new Image(); p.src = src; }
+  function preload(src) { const p = new Image(); p.decoding = 'async'; p.loading = 'lazy'; p.src = src; }
 
-  function buildThumbs(){
+  function buildThumbs() {
     thumbs.innerHTML = '';
-    cur.list.forEach((src, i)=>{
+    cur.list.forEach((src, i) => {
       const b = document.createElement('button');
       const t = document.createElement('img');
-      t.src = src; t.alt = `thumb ${i+1}`;
+      t.decoding = 'async';
+      t.loading = 'lazy';
+      t.src = src; t.alt = `thumb ${i + 1}`;
       b.appendChild(t);
-      b.addEventListener('click', ()=> show(i));
+      b.addEventListener('click', () => show(i));
       thumbs.appendChild(b);
     });
   }
 
-  function highlight(i){
-    thumbs.querySelectorAll('img').forEach((el, k)=> el.classList.toggle('active', k===i));
+  function highlight(i) {
+    thumbs.querySelectorAll('img').forEach((el, k) => el.classList.toggle('active', k === i));
   }
 
   // 내비게이션/닫기/키보드 제어
-  btnPrev.addEventListener('click', ()=> show(cur.i-1));
-  btnNext.addEventListener('click', ()=> show(cur.i+1));
+  btnPrev.addEventListener('click', () => show(cur.i - 1));
+  btnNext.addEventListener('click', () => show(cur.i + 1));
   btnClose.addEventListener('click', closeLB);
-  lb.addEventListener('click', (e)=>{ if(e.target === lb) closeLB(); });
+  lb.addEventListener('click', (e) => { if (e.target === lb) closeLB(); });
 
-  window.addEventListener('keydown', (e)=>{
-    if(!lb.classList.contains('open')) return;
-    if(e.key === 'ArrowLeft')  { e.preventDefault(); show(cur.i-1); }
-    if(e.key === 'ArrowRight') { e.preventDefault(); show(cur.i+1); }
-    if(e.key === 'Escape')     { e.preventDefault(); closeLB(); }
+  window.addEventListener('keydown', (e) => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'ArrowLeft') { e.preventDefault(); show(cur.i - 1); }
+    if (e.key === 'ArrowRight') { e.preventDefault(); show(cur.i + 1); }
+    if (e.key === 'Escape') { e.preventDefault(); closeLB(); }
   });
 })();
 
-// ================== 카드 썸네일(01.png 자동 주입) ==================
-(async function setCardThumbnails(){
+// ================== 카드 썸네일(01만 검사) ==================
+(async function setCardThumbnails() {
   const cards = document.querySelectorAll('.project-item');
 
-  async function imageExists(src){
-    return new Promise(res=>{
-      const im = new Image();
-      im.addEventListener('load', ()=>res(true), {once:true});
-      im.addEventListener('error',()=>res(false), {once:true});
-      im.src = src + (src.includes('?')?'&':'?') + 'v=' + Date.now(); // 캐시 회피
-    });
-  }
-
-  // 제품 카드 등에서 data-gallery가 없으면 폴더 자동 유추
-  function deriveFolderFromCard(card){
-    const cat  = card.dataset.category?.toLowerCase();
-    const name = card.querySelector('p')?.textContent?.trim();
-    if(cat === 'product' && name) return `product/졸업전시도록_${name}`;
+  async function findThumb(folder) {
+    const png = `${folder}/01.png`;
+    if (await imageExists(png)) return png;
+    const jpg = `${folder}/01.jpg`;
+    if (await imageExists(jpg)) return jpg;
     return null;
   }
 
-  // 01.png → 1.png → 001.png, 없으면 jpg/jpeg/webp 순으로 시도
-  async function findThumb(folder){
-    const tries = [
-      `${folder}/01.png`, `${folder}/01.jpg`
-    ];
-    for(const src of tries){
-      if(await imageExists(src)) return src;
-    }
-    return null;
-  }
-
-  for(const card of cards){
+  for (const card of cards) {
     const placeholder = card.querySelector('.image-placeholder');
-    if(!placeholder) continue;
-
+    if (!placeholder) continue;
+    // 우선순위: data-thumb > data-gallery/자동
+    const direct = card.dataset.thumb;
+    if (direct) {
+      placeholder.style.backgroundImage = `url("${direct}")`;
+      continue;
+    }
     const folder = card.dataset.gallery || deriveFolderFromCard(card);
-    if(!folder) continue;
-
+    if (!folder) continue;
     const src = await findThumb(folder);
-    if(src){
+    if (src) {
       placeholder.style.backgroundImage = `url("${src}")`;
     }
   }
