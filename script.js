@@ -55,7 +55,7 @@ async function discoverSequence(folder, {
   max = 200,
   start = 1,
   pads = [2, 1, 3],              // 01, 1, 001 순서
-  exts = ['png', 'jpg', 'jpeg', 'webp']
+  exts = ['webp','avif']
 } = {}) {
   const list = [];
   let misses = 0;                // 연속 실패 카운트(3회면 종료)
@@ -211,7 +211,7 @@ function deriveFolderFromCard(card) {
   // 01.png → 1.png → 001.png, 없으면 jpg/jpeg/webp 순으로 시도
   async function findThumb(folder){
     const tries = [
-      `${folder}/01.png`, `${folder}/1.png`, `${folder}/001.png`,
+      `${folder}/01.avif`, `${folder}/1.png`, `${folder}/001.png`,
       `${folder}/01.jpg`, `${folder}/01.jpeg`, `${folder}/01.webp`
     ];
     for(const src of tries){
