@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // ================== 라이트박스 갤러리 ==================
 
-// (1) 안전한 이미지 존재 검사
+// 안전한 이미지 존재 검사
 function imageExists(src, { cacheBust = false } = {}) {
   return new Promise(resolve => {
     const im = new Image();
@@ -39,16 +39,15 @@ function imageExists(src, { cacheBust = false } = {}) {
   });
 }
 
-// (2) 파일 구조에 맞춘 자동 탐색
-// 기본 가정: 2자리 패딩(01..), 단일 확장자만 사용(.png 또는 .jpg)
+// 2자리 패딩 · 단일 확장자 자동 탐색
 async function discoverSequence(folder, {
   max = 50,
   start = 1,
   pad = 2,
-  ext = 'png' // 필요 시 'jpg'로 변경
+  ext = 'png'
 } = {}) {
   const list = [];
-  let misses = 0; // 연속 실패 2회면 종료(존재 구간이 끝난 것으로 간주)
+  let misses = 0; // 연속 실패 2회면 종료
 
   for (let n = start; n <= max && misses < 2; n++) {
     const num = String(n).padStart(pad, '0');
@@ -63,7 +62,7 @@ async function discoverSequence(folder, {
   return list;
 }
 
-// (3) data-gallery가 없을 때 자동 유추(제품: product/졸업전시하도록_이름)
+// 제품 카드: product/졸업전시도록_${이름}
 function deriveFolderFromCard(card) {
   const cat = card.dataset.category?.toLowerCase();
   const name = card.querySelector('p')?.textContent?.trim();
@@ -90,9 +89,6 @@ function deriveFolderFromCard(card) {
     const card = e.target.closest('.project-item');
     if (!card) return;
 
-    const folderOrKey = card.dataset.gallery || deriveFolderFromCard(card);
-    if (!folderOrKey) return;
-
     // 우선순위: data-images > window.galleries > 자동 탐색
     let list = null;
     if (card.dataset.images) {
@@ -101,13 +97,20 @@ function deriveFolderFromCard(card) {
         if (Array.isArray(arr) && arr.length) list = arr;
       } catch {}
     }
-    if (!list && window.galleries && window.galleries[folderOrKey]) {
+
+    // 폴더 키 결정
+    const folderOrKey = card.dataset.gallery || deriveFolderFromCard(card);
+
+    // 전역 매핑 사용(있을 때만)
+    if (!list && folderOrKey && window.galleries && window.galleries[folderOrKey]) {
       list = window.galleries[folderOrKey].slice();
     }
-    if (!list) {
-      // 폴더별 실제 확장자 선택: png 우선, 없으면 jpg
-      const firstPng = await imageExists(`${folderOrKey}/01.png`);
-      const ext = firstPng ? 'png' : 'jpg';
+
+    // 자동 탐색
+    if (!list && folderOrKey) {
+      // 첫 장으로 확장자 판별
+      const pngFirst = await imageExists(`${folderOrKey}/01.png`);
+      const ext = pngFirst ? 'png' : 'jpg';
       list = await discoverSequence(folderOrKey, { ext, pad: 2, max: 50 });
     }
 
@@ -152,7 +155,12 @@ function deriveFolderFromCard(card) {
     preload(cur.list[(cur.i + 1) % cur.list.length]);
   }
 
-  function preload(src) { const p = new Image(); p.decoding = 'async'; p.loading = 'lazy'; p.src = src; }
+  function preload(src) {
+    const p = new Image();
+    p.decoding = 'async';
+    p.loading = 'lazy';
+    p.src = src;
+  }
 
   function buildThumbs() {
     thumbs.innerHTML = '';
@@ -201,14 +209,16 @@ function deriveFolderFromCard(card) {
   for (const card of cards) {
     const placeholder = card.querySelector('.image-placeholder');
     if (!placeholder) continue;
+
     // 우선순위: data-thumb > data-gallery/자동
-    const direct = card.dataset.thumb;
-    if (direct) {
-      placeholder.style.backgroundImage = `url("${direct}")`;
+    if (card.dataset.thumb) {
+      placeholder.style.backgroundImage = `url("${card.dataset.thumb}")`;
       continue;
     }
+
     const folder = card.dataset.gallery || deriveFolderFromCard(card);
     if (!folder) continue;
+
     const src = await findThumb(folder);
     if (src) {
       placeholder.style.backgroundImage = `url("${src}")`;
