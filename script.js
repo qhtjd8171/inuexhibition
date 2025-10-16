@@ -225,3 +225,64 @@ function deriveFolderFromCard(card) {
     }
   }
 })();
+
+function getYouTubeId(url){
+  const m = String(url).match(/(?:youtu\.be\/|v=|embed\/)([A-Za-z0-9_-]{6,})/);
+  return m ? m[1] : null;
+}
+
+function renderThumbsWithOptionalVideo(cardEl){
+  const media  = document.querySelector('.lightbox-media');
+  const thumbs = document.querySelector('.lb-thumbs');
+  const images = JSON.parse(cardEl.dataset.images || '[]');
+
+  // 초기 큰 미디어
+  media.innerHTML = images[0]
+    ? `<img src="${images[0]}" alt="" style="max-width:100%;max-height:100%;object-fit:contain;display:block;">`
+    : '';
+  thumbs.innerHTML = '';
+
+  // 이미지 썸네일들
+  images.forEach(src=>{
+    const b = document.createElement('button');
+    b.className = 'lb-thumb';
+    b.innerHTML = `<img src="${src}" alt="">`;
+    b.onclick = ()=> media.innerHTML =
+      `<img src="${src}" alt="" style="max-width:100%;max-height:100%;object-fit:contain;display:block;">`;
+    thumbs.appendChild(b);
+  });
+
+  // 이 카드에만 유튜브 썸네일 추가
+  const yt = cardEl.dataset.youtube;
+  const id = yt && getYouTubeId(yt);
+  if(id){
+    const v = document.createElement('button');
+    v.className = 'lb-thumb lb-thumb-video';
+    v.innerHTML = `
+      <img src="https://img.youtube.com/vi/${id}/hqdefault.jpg" alt="영상 썸네일">
+      <span class="play-badge">▶</span>
+    `;
+    v.onclick = ()=> {
+      media.innerHTML = `
+        <div class="iframe-wrap" style="position:relative;width:100%;padding-bottom:56.25%;height:0;">
+          <iframe
+            src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0"
+            title="YouTube player"
+            style="position:absolute;inset:0;width:100%;height:100%;border:0;"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen></iframe>
+        </div>`;
+    };
+    thumbs.appendChild(v);
+  }
+}
+
+// 카드 클릭 시 실행
+document.addEventListener('click',(e)=>{
+  const card = e.target.closest('.project-item');
+  if(!card) return;
+  // 라이트박스 열기(필요 시 기존 코드)
+  document.getElementById('lightbox').classList.add('open');
+  renderThumbsWithOptionalVideo(card);
+});
