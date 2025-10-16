@@ -355,3 +355,26 @@ header nav .dropdown .dropdown-menu .tab-link {
 #hero-img-3 { animation-delay: 0.6s; }
 #hero-img-4 { animation-delay: 1.6s; }
 
+/* 공통: 스윙 효과는 그대로 유지 */
+.hero-bg-image {
+  z-index: 1;
+  opacity: 0.9;
+  object-fit: cover;
+  animation-name: swing;
+  animation-duration: 3s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  transform-origin: top center;
+  /* 스크롤 시 클릭 방해를 막고 싶다면 필요 시 해제 */
+  pointer-events: none;
+}
+
+/* 뷰포트에 고정: 스크롤 내려도 화면에 남아 있음 */
+#hero-img-1,
+#hero-img-2,
+#hero-img-3,
+#hero-img-4 {
+  position: fixed;   /* absolute → fixed */
+}
+
+ 
