@@ -286,3 +286,4 @@ document.addEventListener('click',(e)=>{
   document.getElementById('lightbox').classList.add('open');
   renderThumbsWithOptionalVideo(card);
 });
+
