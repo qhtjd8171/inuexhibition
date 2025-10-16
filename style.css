@@ -44,13 +44,16 @@ body { font-family: 'Pretendard', sans-serif; margin: 0; -webkit-font-smoothing:
 .container { width: 100%; max-width: var(--container-width); margin: 0 auto; padding: 0 20px; }
 
 /* --- 헤더 (공통) --- */
-.header { position: absolute; top: 0; left: 0; width: 100%; z-index: 10; padding: 24px 0; }
-.header-inner { display: flex; justify-content: space-between; align-items: center; max-width: 1880px; margin: 0 auto; padding: 0 40px; }
-.header .logo { font-size: 24px; font-weight: 800; }
+.header{ position:absolute; top:0; left:0; width:100%; z-index:10; padding:24px 0; }
+.header-inner{ display:flex; justify-content:space-between; align-items:flex-start; max-width:1880px; margin:0 auto; padding:0 40px; }
+.brand{ display:flex; flex-direction:column; }
+.header .logo{ font-size:24px; font-weight:800; color:#fff; line-height:1.1; }
+.header .logo-sub{ margin-top:6px; font-size:16px; font-weight:500; color:rgba(255,255,255,.82); line-height:1.25; letter-spacing:.02em; }
 .header nav ul { display: flex; gap: 48px; list-style: none; margin: 0; padding: 0; }
 .header nav a { font-size: 16px; font-weight: 500; text-decoration: none; }
 .header .icons { display: flex; gap: 24px; }
 .header .icon { width: 28px; height: 28px; border-width: 2px; border-style: solid; }
+
 
 /* --- 페이지별 body 및 헤더 스타일 --- */
 .main-page { background-color: var(--color-white); color: var(--color-dark); }
@@ -66,13 +69,30 @@ body { font-family: 'Pretendard', sans-serif; margin: 0; -webkit-font-smoothing:
 
 /* --- main.html (메인 페이지) 스타일 --- */
 /* --- main.html (메인 페이지) 스타일 --- */
-.hero {
-  height: 670px;
-  /* 원하는 색상으로 변경 */
-  background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), rgb(0, 0, 0);
-  display: flex;
-  align-items: center;
+/* 풀스크린 메인 배경 */
+.hero{
+  position: relative;
+  min-height: 100vh;
+  display: flex; align-items: center;
   color: var(--color-white);
+  background: url('main/mainphoto.png') no-repeat center center;
+  background-size: cover;
+}
+.hero::before{
+  content:""; position:absolute; inset:0;
+  background: linear-gradient(180deg, rgba(0,0,0,.35), rgba(0,0,0,.25));
+}
+.hero > .container{ position:relative; z-index: 5; } /* 텍스트를 최상단에 */
+
+/* 컴페티(히어로 떠 있는 4개 이미지) */
+.hero-bg-image{
+  position: fixed;            /* 스크롤해도 뷰포트에 고정 */
+  z-index: 2;                 /* 오버레이(=::before) 위, 텍스트 아래/위 중 선택 */
+  opacity: 0.9;
+  object-fit: cover;
+  animation: swing 3s ease-in-out infinite;
+  transform-origin: top center;
+  pointer-events: none;       /* 클릭 방해 금지 */
 }
 .hero-content { max-width: 600px; }
 .hero h1 { font-size: 40px; font-weight: 800; margin: 0 0 16px; }
@@ -94,10 +114,10 @@ body { font-family: 'Pretendard', sans-serif; margin: 0; -webkit-font-smoothing:
     background-repeat: no-repeat;
 }
 .card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-.card .card-image { height: 280px; background-color: var(--color-light-grey); }
+.card .card-image { height: 280px; background-color: var(--color-dark); }
 .card h3 { font-size: 20px; font-weight: 600; margin: 20px 0 12px; }
-.card p { font-size: 14px; color: var(--color-grey); margin: 0; }
-.large-image-section .large-image { height: 450px; background-color: var(--color-light-grey); }
+.card p { font-size: 14px; color: var(--color-dark); margin: 0; }
+
 
 /* --- about.html (소개 페이지) 스타일 --- */
 .about-section { display: flex; align-items: center; justify-content: center; min-height: 100vh; text-align: left; }
@@ -393,3 +413,183 @@ header nav .dropdown .dropdown-menu .tab-link {
   background:rgba(0,0,0,.55); color:#fff; font-size:12px;
   padding:6px 8px; border-radius:6px;
 }
+
+/* ===== 메인 히어로(배경 한 장) ===== */
+.hero{
+  position: relative;
+  min-height: 100vh;
+  display: flex; align-items: center;
+  color: var(--color-white);
+  background: url('main/mainphoto.png') no-repeat center center;
+  background-size: cover;
+  overflow: hidden;                 /* 가장자리 잘림 방지 */
+}
+.hero::before{
+  content:""; position:absolute; inset:0;
+  background: linear-gradient(180deg, rgba(0,0,0,.35), rgba(0,0,0,.25));
+}
+.hero > .container{ position:relative; z-index: 5; }
+
+/* 히어로 텍스트 */
+.hero-content { max-width: 680px; position: relative; z-index: 6; }
+.hero h1 { font-size: 44px; font-weight: 800; margin: 0 0 16px; text-shadow: 0 2px 8px rgba(0,0,0,.4); }
+.hero p  { font-size: 16px; font-weight: 500; margin: 0 0 40px; text-shadow: 0 1px 6px rgba(0,0,0,.35); }
+.works-button { display: inline-flex; align-items: center; gap: 12px; padding: 12px 16px; border: 1px solid var(--color-white); text-decoration: none; color: var(--color-white); }
+
+/* ===== 컴페티(히어로 떠 있는 4개 이미지) ===== */
+.hero-bg-image{
+  position: fixed;       /* 스크롤해도 뷰포트에 고정 */
+  z-index: 3;            /* 오버레이 위, 텍스트보다 뒤/앞은 상황에 맞게 */
+  opacity: 0.9;
+  object-fit: cover;
+  animation: swing 3s ease-in-out infinite;
+  transform-origin: top center;
+  pointer-events: none;  /* 클릭 방해 금지 */
+}
+
+/* 개별 위치/크기(기존 값 그대로) */
+#hero-img-1{ width:196px; top:15%; left:8%;  transform: rotate(-15deg); animation-delay:0s; }
+#hero-img-2{ width:154px; top:60%; left:30%; transform: rotate(5deg);   animation-delay:1s; }
+#hero-img-3{ width:210px; top:10%; right:12%; transform: rotate(10deg);  animation-delay:.6s; }
+#hero-img-4{ width:175px; bottom:5%; right:5%; transform: rotate(-5deg); animation-delay:1.6s; }
+
+@keyframes swing{
+  0%{ transform: rotate(-5deg) translateX(0); }
+  50%{ transform: rotate(5deg) translateX(5px); }
+  100%{ transform: rotate(-5deg) translateX(0); }
+}
+
+/* ===== 섹션 공통 ===== */
+.section { padding: 120px 0; }
+.section-header { text-align: center; margin-bottom: 60px; }
+.section-header h2 { font-size: 32px; font-weight: 600; margin: 0 0 16px; }
+.section-header p  { font-size: 16px; color: var(--color-grey); margin: 0; }
+
+
+
+/* 카드(사용 안 하면 그대로 두어도 무방) */
+.card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.card .card-image { height: 280px; background-color: var(--color-dark); }
+.card h3 { font-size: 20px; font-weight: 600; margin: 20px 0 12px; }
+.card p  { font-size: 14px; color: var(--color-dark); margin: 0; }
+
+
+
+/* ===== 라이트박스 버튼 z-index 보정 ===== */
+.lightbox-media{ position:relative; }
+.lb-nav{
+  position:absolute; top:50%; transform:translateY(-50%);
+  width:40px; height:40px; border-radius:50%;
+  border:0; background:rgba(255,255,255,.12); color:#fff;
+  font-size:26px; cursor:pointer; z-index:2;
+}
+.lb-prev{ left:12px; } .lb-next{ right:12px; }
+
+.lb-thumb-video{ position:relative; }
+.lb-thumb-video .play-badge{
+  position:absolute; right:6px; bottom:6px;
+  background:rgba(0,0,0,.55); color:#fff; font-size:12px;
+  padding:6px 8px; border-radius:6px;
+}
+
+/* 등장 애니메이션 정의 */
+@keyframes box-appear{
+  from{ opacity: 0; transform: translateY(24px) scale(.96); }
+  to  { opacity: 1; transform: translateY(0)   scale(1);   }
+}
+
+/* 전시장 안내 섹션 내부의 박스만 스크롤 애니메이션 적용 */
+.large-image-section .large-image{
+  animation-name: box-appear;
+  animation-timing-function: ease-out;
+  animation-fill-mode: both;
+
+  /* 뷰 타임라인: 요소가 보일 때 진행 */
+  animation-timeline: view();
+
+  /* 들어오기 시작해서 뷰포트 40% 채울 때까지 완료 */
+  animation-range: entry 0% cover 40%;
+}
+
+/* 섹션 전체를 다크 테마로 */
+.large-image-section{
+  background:#000;
+  color:#fff;               /* ← 이 값이 섹션 내부 기본 글자색 */
+}
+
+
+
+/* 2열 레이아웃 */
+.large-image{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:16px;
+  background:transparent;
+}
+
+/* 이미지 자체 스타일 */
+.venue-img{
+  width:100%;
+  height:auto;
+  display:block;
+  border-radius:10px;
+  object-fit:cover;
+  aspect-ratio:16/9;                   /* 원하는 비율, 필요 없으면 제거 */
+
+  /* 스크롤 구동 등장 애니메이션 */
+  animation-name:box-appear;
+  animation-timeline:view();
+  animation-range:entry 0% cover 40%;
+  animation-timing-function:ease-out;
+  animation-fill-mode:both;
+}
+
+
+/* 키프레임(앞서 정의했으면 재사용) */
+@keyframes box-appear{
+  from{ opacity: 0; transform: translateY(24px) scale(.96); }
+  to  { opacity: 1; transform: translateY(0)   scale(1);   }
+}
+
+
+/* 로드시 유지, 히어로가 나가기 시작할 때 사라짐 */
+@keyframes confetti-out{
+  from{ opacity:1; transform: translateY(0)     scale(1)    rotate(var(--rot,0deg)); }
+  to  { opacity:0; transform: translateY(-20px) scale(.96)  rotate(var(--rot,0deg)); }
+}
+
+/* 히어로 요소 자체에 타임라인 부여(익명 view 타임라인 사용) */
+.main-page .hero{ view-timeline-name: --hero; view-timeline-axis: block; }
+
+/* 컴페티에 '히어로의 view 타임라인'을 연결하고 exit 구간에서만 진행 */
+.main-page .hero-bg-image{
+  animation-name: confetti-out, swing;
+  animation-timeline: --hero, auto;          /* 1: 히어로 view 타임라인, 2: 흔들림은 시간 */
+  animation-range: exit 0% exit 90%, auto;   /* 히어로가 나가기 시작(exit 0%)~60% 동안만 페이드아웃 */
+  animation-duration: 1s, 3s;                /* duration은 타임라인에 의해 대체됨 */
+  animation-timing-function: linear, ease-in-out;
+  animation-iteration-count: 1, infinite;
+  animation-fill-mode: both, none;
+}
+
+/* 텍스트 등장(이미지와 동일 키프레임 사용 가능) */
+@keyframes text-appear{
+  from{ opacity:0; transform: translateY(20px) scale(.98); }
+  to  { opacity:1; transform: translateY(0)    scale(1);   }
+}
+
+/* 전시장 안내 섹션의 제목/설명에 적용 */
+.large-image-section .section-header h2,
+.large-image-section .section-header p{
+  animation-name: text-appear;
+  animation-timeline: view();          /* 요소가 보일 때 진행 */
+  animation-range: entry 0% cover 40%; /* 들어오며 40% 구간에서 완료 */
+  animation-timing-function: ease-out;
+  animation-fill-mode: both;
+}
+
+/* 제목과 설명을 약간 시차로 */
+.large-image-section .section-header p{
+  animation-range: entry 10% cover 50%; /* 설명은 조금 늦게 완주 */
+}
+
