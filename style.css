@@ -300,7 +300,7 @@ header nav .dropdown .dropdown-menu .tab-link {
 .hero-bg-image {
     position: absolute; /* 자유롭게 위치시키기 위함 */
     z-index: 1;         /* 텍스트(hero-content)보다 뒤에 위치 */
-    opacity: 1;       /* 이미지를 은은하게 보이도록 투명도 조절 */
+    opacity: 0.9;       /* 이미지를 은은하게 보이도록 투명도 조절 */
     object-fit: cover;
 }
 
@@ -309,7 +309,7 @@ header nav .dropdown .dropdown-menu .tab-link {
 #hero-img-1 {
     width: 196px;  /* 280px -> 196px */
     top: 15%;
-    left: 8%;
+    left: 80%;
     transform: rotate(-15deg);
 }
 
