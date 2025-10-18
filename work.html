@@ -8,6 +8,8 @@
   <link rel="stylesheet" href="style.css" />
   <script src="script.js" defer></script>
 </head>
+
+
 <body class="work-page">
   <header class="header">
     <div class="header-inner">
@@ -18,15 +20,7 @@
       <nav>
         <ul>
           <li><a href="main.html">HOME</a></li>
-          <li class="dropdown">
-            <a href="work.html" style="font-weight:700;">WORK</a>
-            <ul class="dropdown-menu">
-              <li><a href="#" class="tab-link active" data-filter="all">All</a></li>
-              <li><a href="#" class="tab-link" data-filter="visual">Visual</a></li>
-              <li><a href="#" class="tab-link" data-filter="video">Video</a></li>
-              <li><a href="#" class="tab-link" data-filter="product">Product</a></li>
-            </ul>
-          </li>
+          <li><a href="work.html">WORK</a></li>
           <li><a href="about.html">ABOUT</a></li>
           <li><a href="#">CONTACT</a></li>
           <li><a href="#">HISTORY</a></li>
@@ -37,9 +31,22 @@
   </header>
 
   <main>
+
+
+        <section class="filter-section">
+            <div class="container">
+                <div class="category-nav">
+                    <a href="#" class="tab-link active" data-filter="all">All</a>
+                    <a href="#" class="tab-link" data-filter="visual">Visual</a>
+                    <a href="#" class="tab-link" data-filter="product">Product</a>
+                    <a href="#" class="tab-link" data-filter="video">Video</a>
+                </div>
+            </div>
+        </section>    
     <section class="project-grid-section">
       <div class="container">
         <div class="project-grid">
+          
 
 
 
@@ -822,7 +829,8 @@ Caution에서의 한 잔은 우리가 당연하게 여겨온 개념을 낯설게
                "video/졸업전시도록_서가현/03.jpg",
                "video/졸업전시도록_서가현/04.jpg",
                "video/졸업전시도록_서가현/05.png"
-               ]'                
+               ]' 
+               data-youtube="https://youtu.be/z4F07sTEqrI?si=uXJOpTFJMwFsANgZ"               
           >
             <div class="image-placeholder"></div>
             <h3>For Hamlet</h3>
@@ -884,7 +892,8 @@ Caution에서의 한 잔은 우리가 당연하게 여겨온 개념을 낯설게
                "video/졸업전시도록_신한비/02.png",
                "video/졸업전시도록_신한비/03.png",
                "video/졸업전시도록_신한비/04.png"
-               ]'                
+               ]'
+               data-youtube="https://youtu.be/PNp83h1ZOy0"              
           >
             <div class="image-placeholder"></div>
             <h3>Colors</h3>
@@ -983,7 +992,8 @@ Caution에서의 한 잔은 우리가 당연하게 여겨온 개념을 낯설게
                "video/졸업전시도록_이연지/02.jpg",
                "video/졸업전시도록_이연지/03.jpg",
                "video/졸업전시도록_이연지/04.jpg"
-               ]'                
+               ]'   
+               data-youtube="https://youtu.be/wCoWa8YEp5g?si=8DsCn9wPZ8K20wah"             
           >
             <div class="image-placeholder"></div>
             <h3>DOTS</h3>
@@ -1079,6 +1089,7 @@ Caution에서의 한 잔은 우리가 당연하게 여겨온 개념을 낯설게
                "video/졸업전시도록_한봄/03.png",
                "video/졸업전시도록_한봄/04.png"
                ]' 
+               data-youtube="https://youtube.com/watch?v=mnIG_a7RxnA&si=FMYxmfZMxnZgFWER"
           >
             <div class="image-placeholder"></div>
             <h3>F3: FreeFrogFly</h3>
@@ -1118,6 +1129,7 @@ Caution에서의 한 잔은 우리가 당연하게 여겨온 개념을 낯설게
                "video/졸업전시도록_황선민/04.png",
                "video/졸업전시도록_황선민/05.png"
                ]'
+               data-youtube="https://youtu.be/J2Oq3PzSNRI"
           >
             <div class="image-placeholder"></div>
             <h3>Dreamcatcher Doll</h3>
@@ -1349,47 +1361,32 @@ Caution에서의 한 잔은 우리가 당연하게 여겨온 개념을 낯설게
     </section>
   </main>
 
-  <!-- 라이트박스 오버레이: 좌측 이미지 / 우측 설명 + 이전/다음 버튼 -->
-  <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Project gallery" aria-hidden="true">
-    <div class="lightbox-dialog">
-      <button class="lb-close" aria-label="close">×</button>
-
+<!-- 라이트박스 (이 코드로 최종 교체해주세요) -->
+<div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="lightbox-dialog">
+      <!-- 1. 미디어 영역 (이미지/비디오가 여기에 표시됨) -->
       <div class="lightbox-media">
-        <button class="lb-nav lb-prev" aria-label="previous">‹</button>
-        <img id="lb-image" alt="" />
-        <button class="lb-nav lb-next" aria-label="next">›</button>
+          <!-- script.js가 여기에 이미지/비디오를 동적으로 삽입합니다 -->
       </div>
 
+      <!-- 2. 설명 및 썸네일 영역 -->
       <aside class="lightbox-aside">
-        <h3 id="lb-title"></h3>
-        <p id="lb-desc"></p>
-        <div class="lb-counter">
-          <span id="lb-idx">1</span>
-          /
-          <span id="lb-total">1</span>
-        </div>
-        <div class="lb-thumbs" id="lb-thumbs"></div>
+          <button class="lb-close" aria-label="Close">×</button>
+          <h3 id="lb-title"></h3>
+          <p id="lb-desc"></p>
+          <div class="lb-counter">
+              <span id="lb-idx"></span> / <span id="lb-total"></span>
+          </div>
+          <div id="lb-thumbs" class="lb-thumbs"></div>
       </aside>
-    </div>
+
+      <!-- 3. 좌우 네비게이션 버튼 (독립된 위치로 이동) -->
+      <button class="lb-nav lb-prev" aria-label="Previous">‹</button>
+      <button class="lb-nav lb-next" aria-label="Next">›</button>
   </div>
+</div>
 
-    <!-- 여기에 추가 ─ 라이트박스 고정 마크업(파란 영역) -->
-  <div class="lightbox" id="lightbox" style="display:none;">
-    <div class="lightbox-dialog">
-      <div class="lightbox-media">
-        <div class="lb-slot"></div>               <!-- 이미지/동영상이 교체될 자리 -->
-        <button class="lb-nav lb-prev" aria-label="Prev">‹</button>
-        <button class="lb-nav lb-next" aria-label="Next">›</button>
-      </div>
-      <aside class="lightbox-aside">
-        <button class="lb-close" aria-label="닫기">×</button>
-        <h3 id="lb-title"></h3>
-        <p id="lb-desc"></p>
-        <div class="lb-counter" id="lb-counter"></div>
-        <div class="lb-thumbs"></div>            <!-- 우측 썸네일 그리드 -->
-      </aside>
-    </div>
-  </div>  
+ 
 
   <footer class="footer">
     <div class="container">
