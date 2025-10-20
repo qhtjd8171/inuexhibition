@@ -119,13 +119,119 @@ body { font-family: 'Pretendard', sans-serif; margin: 0; -webkit-font-smoothing:
 .card p { font-size: 14px; color: var(--color-dark); margin: 0; }
 
 
-/* --- about.html (소개 페이지) 스타일 --- */
-.about-section { display: flex; align-items: center; justify-content: center; min-height: 100vh; text-align: left; }
-.about-content { display: flex; gap: 100px; margin-top: 80px; }
-.about-column { flex: 1; max-width: 500px; }
-.about-column .title { font-size: 18px; font-weight: 600; margin-bottom: 8px; color: #aaa; }
-.about-column .subtitle { font-size: 24px; font-weight: 700; margin-bottom: 40px; }
-.about-column p { font-size: 16px; line-height: 1.8; color: #ddd; }
+/* --- about.html (소개 페이지) 최종 스타일 --- */
+
+/* 페이지 전체 섹션 정렬 */
+body.about-page .about-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 120px 0;
+}
+
+/* 탭 메뉴 */
+body.about-page .about-tab-menu {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-bottom: 80px;
+    border-bottom: 1px solid #333;
+}
+
+body.about-page .tab-button {
+    background: none;
+    border: none;
+    color: #777;
+    cursor: pointer;
+    padding: 16px 0;
+    text-align: center;
+    border-bottom: 2px solid transparent;
+    transition: color 0.3s, border-color 0.3s;
+}
+
+body.about-page .tab-button .main-title {
+    display: block;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+body.about-page .tab-button .sub-title {
+    display: block;
+    font-size: 12px;
+    margin-top: 4px;
+    font-weight: 400;
+}
+
+body.about-page .tab-button:hover {
+    color: #ccc;
+}
+
+body.about-page .tab-button.active {
+    color: #fff;
+    font-weight: 700;
+    border-bottom-color: #fff;
+}
+
+/* 콘텐츠 보이기/숨기기 */
+.about-tab-content {
+    display: none;
+}
+.about-tab-content.active {
+    display: block;
+}
+
+/* "전시 개요" 탭 콘텐츠 내부 레이아웃 */
+#overview .about-content {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    gap: 100px;
+}
+#overview .about-content p {
+    flex: 1;
+    color: #ddd;
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+/* "졸업준비위원회" 탭 콘텐츠 내부 레이아웃 */
+#committee .committee-content {
+    color: #fff;
+    text-align: center;
+}
+#committee h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0;
+}
+#committee .sub-heading {
+    font-size: 14px;
+    color: #aaa;
+    margin-top: 8px;
+    margin-bottom: 60px;
+}
+#committee .committee-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+    max-width: 400px;
+}
+#committee .committee-list li {
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    margin-bottom: 24px;
+}
+#committee .committee-list .role {
+    color: #aaa;
+}
+#committee .committee-list .name {
+    color: #fff;
+}
+
+
+
 
 /* --- work.html (작업물 페이지) 스타일 --- */
 .project-grid-section { padding-top: 200px; padding-bottom: 100px; }
@@ -133,7 +239,7 @@ body { font-family: 'Pretendard', sans-serif; margin: 0; -webkit-font-smoothing:
 .project-item .image-placeholder { width: 100%; height: 220px; background-color: #000000; margin-bottom: 16px; }
 .project-item h3 { font-size: 18px; font-weight: 600; margin: 0 0 8px; }
 .project-item p { font-size: 14px; color: #999; margin: 0; }
-.footer { text-align: center; padding: 60px 0; font-size: 12px; color: #666; line-height: 1.6; }
+.footer { text-align: center; padding: 60px 0; font-size: 12px; color: #888; line-height: 1.6; background-color: #000000;  }
 .footer p { margin: 0; }
 
 /* --- work.html (작업물 페이지) 스타일 --- */

@@ -5,15 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About - INCHEON NATIONAL UNIVERSITY</title>
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css"> <!-- CSS 파일 연결 -->
 </head>
 <body class="about-page">
     <header class="header">
         <div class="header-inner">
-    <div class="brand">
-      <div class="logo">2025인천대학교 디자인학부 졸업전시회</div>
-      <div class="logo-sub">Incheon National University Division of Design Graduation Exhibition</div>
-    </div>
+            <div class="brand">
+              <div class="logo">2025인천대학교 디자인학부 졸업전시회</div>
+              <div class="logo-sub">Incheon National University Division of Design Graduation Exhibition</div>
+            </div>
             <nav>
                 <ul>
                     <li><a href="main.html">HOME</a></li>
@@ -23,26 +23,53 @@
                     <li><a href="#">HISTORY</a></li>
                 </ul>
             </nav>
-
         </div>
     </header>
+
     <main>
         <section class="about-section">
             <div class="container">
-                <div class="about-content">
-                    <div class="about-column">
-                        <div class="title">전시개요</div>
-                        <div class="subtitle">Exhibition Overview</div>
+                <!-- 탭 버튼 메뉴 -->
+                <div class="about-tab-menu">
+                    <button class="tab-button active" data-tab="overview">
+                        <span class="main-title">전시 개요</span>
+                        <span class="sub-title">Exhibition Overview</span>
+                    </button>
+                    <button class="tab-button" data-tab="committee">
+                        <span class="main-title">졸업준비위원회</span>
+                        <span class="sub-title">Preparation Committee</span>
+                    </button>
+                </div>
+
+                <!-- "전시 개요" 콘텐츠 -->
+                <div class="about-tab-content active" id="overview">
+                    <div class="about-content">
                         <p>답이 없다. 아니, 답은 애초에 존재하지 않다. 우리는 끝없이 답을 찾기 위해 스스로를 의심해왔지만 정답은 존재하지 않았기에, 우리는 답없는 시험지와같은 세상에서 자신만의 해답으로 나아가야 한다. ‘No answer No doubt (노답노답)’은 의심하지 않고, 우리들 각자의 답을 찾아가는 과정, 그리고 마침내 자신만의 결과를 담는다.</p>
-                    </div>
-                    <div class="about-column">
-                        <div class="title">졸업준비위원회</div>
-                        <div class="subtitle">Preparation Commitee</div>
                         <p>There is no answer. No, there is no answer in the first place. We’ve endlessly doubted ourselves, searching for answers, but since there is no right answer, we must move forward in a world like a test paper with no answers, seeking our own answers. “No Answer No Doubt” captures the process of each of us finding our own answers without doubt, and ultimately, our own unique results.</p>
+                    </div>
+                </div>
+
+                <!-- "졸업준비위원회" 콘텐츠 -->
+                <div class="about-tab-content" id="committee">
+                    <div class="committee-content">
+                        <h2>2025 졸업전시 준비위원회</h2>
+                        <p class="sub-heading">INU Division Of Design Preparation Committee</p>
+                        <ul class="committee-list">
+                            <li><span class="role">위원장</span> <span class="name">안규은</span></li>
+                            <li><span class="role">부위원장</span> <span class="name">조가은</span></li>
+                            <li><span class="role">총무부</span> <span class="name">유채희</span></li>
+                            <li><span class="role">웹사이트</span> <span class="name">박보성</span></li>
+                            <li><span class="role">디자인부</span> <span class="name">김민희 문정현<br>
+                                                                                     염수민 이재인<br>
+                                                                                      이채민 임다현</span></li>
+                            <li><span class="role">총괄지도</span> <span class="name">이운형 교수</span></li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </section>
     </main>
+
+    <script src="script.js"></script> <!-- JavaScript 파일 연결 -->
 </body>
 </html>
