@@ -46,6 +46,10 @@ body { font-family: 'Pretendard', sans-serif; margin: 0; -webkit-font-smoothing:
 /* --- 헤더 (공통) --- */
 .header{ position:absolute; top:0; left:0; width:100%; z-index:10; padding:24px 0; }
 .header-inner{ display:flex; justify-content:space-between; align-items:flex-start; max-width:1880px; margin:0 auto; padding:0 40px; }
+.brand a {
+    text-decoration: none;
+    color: inherit;
+}
 .brand{ display:flex; flex-direction:column; }
 .header .logo{ font-size:24px; font-weight:800; color:#fff; line-height:1.1; }
 .header .logo-sub{ margin-top:6px; font-size:16px; font-weight:500; color:rgba(255,255,255,.82); line-height:1.25; letter-spacing:.02em; }
@@ -752,3 +756,29 @@ body.about-page .tab-button.active {
   animation-range: entry 10% cover 50%; /* 설명은 조금 늦게 완주 */
 }
 
+/* --- Footer Social Link 스타일 --- */
+.footer-social {
+    margin-top: 30px; /* 위쪽 저작권 문구와의 간격 */
+}
+
+.social-link {
+    display: inline-flex; /* 아이콘과 텍스트를 나란히 배치 */
+    align-items: center;  /* 세로 중앙 정렬 */
+    gap: 8px;             /* 아이콘과 텍스트 사이 간격 */
+    text-decoration: none; /* 링크 밑줄 제거 */
+    color: #888;          /* 텍스트 색상 */
+    transition: color 0.2s;
+}
+
+.social-link:hover {
+    color: #fff; /* 마우스를 올렸을 때 텍스트 색상 변경 */
+}
+
+.social-link img {
+    width: 20px;  /* 아이콘 크기 */
+    height: 20px;
+}
+
+.social-link span {
+    font-size: 14px; /* 텍스트 크기 */
+}
