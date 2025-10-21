@@ -909,7 +909,6 @@ body.about-page .tab-button.active {
   #hero-img-3 { width: 80px; }
   #hero-img-4 { width: 56px; }
 }
-
 @media (max-width: 1024px) {
   /* 1. 바디 및 HTML 스크롤 허용 */
   body, html {
@@ -918,25 +917,28 @@ body.about-page .tab-button.active {
 
   /* 2. 라이트박스 1열 레이아웃 유지 및 내부 스크롤 활성화 */
   .lightbox-dialog {
-    grid-template-columns: 1fr;       /* 1열 레이아웃 */
-    height: min(92vh, 1200px);        /* 최대 높이 제한 */
+    display: block;                  /* 1열 레이아웃 강제 */
+    width: 96vw;                     /* 모바일 폭에 맞춤 */
+    max-height: 96vh;                /* 화면 거의 전부 사용 */
+    overflow: hidden;                /* 내부만 스크롤 */
   }
 
   .lightbox-media {
-    height: 60vh;                     /* 이미지 영역 높이 */
+    height: 35vh;                    /* 이미지 영역 비율 축소 */
   }
 
   .lightbox-aside {
-    min-height: 60vh;                 /* 설명 영역 최소 높이 */
-    max-height: 78vh;                 /* 설명 영역 최대 높이 */
-    overflow-y: auto;                 /* 세로 스크롤 허용 */
-    padding: 16px;
+    height: calc(96vh - 35vh);       /* 남은 높이 전체 사용 */
+    overflow-y: auto;                /* 세로 스크롤 허용 */
+    padding: 20px;                   /* 모바일 여백 확대 */
+    background: #151515;             /* 기존 배경 유지 */
+    box-sizing: border-box;
   }
 
   /* 3. 부드러운 전환 (선택 사항) */
   .lightbox-aside,
   .lightbox-media {
-    transition: max-height .25s ease, height .25s ease;
+    transition: height .25s ease;
   }
 
   /* 4. 라이트박스 오버레이 스크롤 허용 */
@@ -945,3 +947,5 @@ body.about-page .tab-button.active {
     -webkit-overflow-scrolling: touch;
   }
 }
+
+
