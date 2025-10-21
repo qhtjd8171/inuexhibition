@@ -890,3 +890,9 @@ body.about-page .tab-button.active {
     padding: 0 8px;
   }
 }
+
+@media (max-width: 820px) {
+  .header .logo, .brand .logo-sub {
+    display: none !important;
+  }
+}
