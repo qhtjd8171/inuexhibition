@@ -929,3 +929,9 @@ body.about-page .tab-button.active {
   }
 }
 
+@media (max-width: 1024px) {
+  .lightbox {
+    overflow-y: auto !important; /* 강제 활성화 */
+    -webkit-overflow-scrolling: touch; /* iOS 등 모멘텀 스크롤 대응 */
+  }
+}
