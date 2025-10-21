@@ -207,3 +207,15 @@
   });
 
 })();
+
+document.addEventListener('DOMContentLoaded', () => {
+  const toggleBtn = document.querySelector('.lightbox-toggle');
+  const aside = document.querySelector('.lightbox-aside');
+
+  if (toggleBtn && aside) {
+    toggleBtn.addEventListener('click', () => {
+      aside.classList.toggle('is-expanded');
+      toggleBtn.textContent = aside.classList.contains('is-expanded') ? '간략히 보기' : '더 보기';
+    });
+  }
+});
