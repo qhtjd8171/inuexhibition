@@ -928,12 +928,19 @@ body.about-page .tab-button.active {
     padding: 16px;
   }
 }
+@media (max-width: 1024px) {
+.lightbox { overflow-y: auto !important; -webkit-overflow-scrolling: touch; }
+}
 
 @media (max-width: 1024px) {
   .lightbox {
     overflow-y: auto !important; /* 강제 활성화 */
     -webkit-overflow-scrolling: touch; /* iOS 등 모멘텀 스크롤 대응 */
   }
+}
+
+@media (max-width: 1024px) {
+body, html { overflow: auto !important; }
 }
 
 @media (max-width: 1024px) {
