@@ -910,21 +910,20 @@ body.about-page .tab-button.active {
   #hero-img-4 { width: 56px; }
 }
 
-
-
 /* 모바일에서 라이트박스 1열 레이아웃 및 설명 영역 확장 */
 @media (max-width: 1024px) {
   .lightbox-dialog {
     grid-template-columns: 1fr;        /* 1열 배치 */
-    height: min(92vh, 980px);          /* 높이 상한선 확대 */
+    height: min(92vh, 1200px);         /* 높이 상한선 대폭 확대 */
   }
   .lightbox-media {
-    height: 56vh;                       /* 이미지 영역 높이 약간 늘리기 */
+    height: 60vh;                       /* 이미지 영역 높이 유지/조정 */
   }
   .lightbox-aside {
-    min-height: 52vh;                   /* 설명 영역 최소 높이 확대 */
-    max-height: 52vh;                   /* 필요시 고정 높이 유지 */
+    min-height: 60vh;                   /* 설명 영역 최소 높이 확대 */
+    max-height: 60vh;                   /* 설명 영역 최대 높이 고정(필요 시 조절) */
     overflow-y: auto;                   /* 세로 스크롤 허용 */
     padding: 16px;
   }
 }
+
