@@ -935,3 +935,40 @@ body.about-page .tab-button.active {
     -webkit-overflow-scrolling: touch; /* iOS 등 모멘텀 스크롤 대응 */
   }
 }
+
+@media (max-width: 1024px) {
+/* 바디의 기본 스크롤 허용 여부 확인/강제 설정(테스트용) */
+body, html {
+overflow: auto !important;
+}
+
+/* 라이트박스 1열 레이아웃 유지 및 내부 스크롤 활성화 /
+.lightbox-dialog {
+grid-template-columns: 1fr; / 1열 레이아웃 유지 /
+height: min(92vh, 1200px); / 필요 시 높이 상한선 확장 */
+}
+
+.lightbox-media {
+height: 60vh; /* 이미지 영역 높이 유지/조정 */
+}
+
+.lightbox-aside {
+min-height: 60vh; /* 설명 영역 최소 높이 확대 /
+max-height: 78vh; / 확장 시 최대 높이 설정 /
+overflow-y: auto; / 설명 영역이 길면 스크롤 가능 */
+padding: 16px;
+}
+
+/* 필요시 더 부드러운 트랜지션 추가 */
+.lightbox-aside, .lightbox-media {
+transition: max-height .25s ease, height .25s ease;
+}
+
+
+
+@media (max-width: 1024px) {
+.lightbox {
+overflow-y: auto !important;
+-webkit-overflow-scrolling: touch;
+}
+}
