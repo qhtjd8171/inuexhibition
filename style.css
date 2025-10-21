@@ -949,3 +949,18 @@ body.about-page .tab-button.active {
 }
 
 
+@media (max-width: 1024px) {
+  /* 모바일에서도 컴페티(흔들림 + 스크롤 아웃) 효과 유지 */
+  .main-page .hero-bg-image {
+    /* 스윙 애니메이션 유지 */
+    animation-name: confetti-out, swing;
+    animation-timeline: --hero, auto;          
+    animation-range: exit 0% exit 90%, auto;   
+    animation-duration: 1s, 3s;                
+    animation-timing-function: linear, ease-in-out;
+    animation-iteration-count: 1, infinite;
+    animation-fill-mode: both, none;
+    transform-origin: top center;
+    pointer-events: none;
+  }
+}
