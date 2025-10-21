@@ -911,9 +911,7 @@ body.about-page .tab-button.active {
 }
 @media (max-width: 1024px) {
   /* 1. 바디 및 HTML 스크롤 허용 */
-  body, html {
-    overflow: auto !important;
-  }
+
 
   /* 2. 라이트박스 1열 레이아웃 유지 및 내부 스크롤 활성화 */
   .lightbox-dialog {
