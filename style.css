@@ -910,28 +910,22 @@ body.about-page .tab-button.active {
   #hero-img-4 { width: 56px; }
 }
 
-/* 모바일에서만 적용: 더 보기로 확장 시 전체 내용 노출 + 이미지 유지 */
+/* 모바일에서 라이트박스 1열 레이아웃 유지 및 설명 영역 스크롤 활성화 */
 @media (max-width: 1024px) {
   .lightbox-dialog {
-    grid-template-columns: 1fr;       /* 1열 레이아웃 */
-    height: min(92vh, 1400px);        /* 필요 시 높이 상한선 대폭 확대 */
+    grid-template-columns: 1fr;       /* 1열 레이아웃 유지 */
+    height: min(92vh, 1200px);        /* 필요 시 높이 상한선 확장 */
   }
 
   .lightbox-media {
-    height: 60vh;                       /* 이미지 영역 높이 조정 (필요 시 더 늘림) */
+    height: 60vh;                       /* 이미지 영역 높이 유지/조정 */
   }
 
   .lightbox-aside {
     min-height: 60vh;                   /* 설명 영역 최소 높이 확대 */
-    max-height: 78vh;                   /* 확장 시 최대 높이 설정(필요 시 더 크게 조정) */
-    overflow-y: auto;                   /* 내용이 길면 스크롤 가능 */
+    max-height: 78vh;                   /* 확장 시 최대 높이 설정 */
+    overflow-y: auto;                   /* 설명 영역이 길면 스크롤 가능 */
     padding: 16px;
-    transition: max-height .35s ease, padding .25s ease;
-  }
-
-  /* 확장 상태일 때의 스타일 */
-  .lightbox-aside.is-expanded {
-    max-height: 78vh;                   /* 확장 시 최대 높이 재적용 */
   }
 }
 
