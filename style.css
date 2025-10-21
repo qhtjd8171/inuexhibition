@@ -909,3 +909,19 @@ body.about-page .tab-button.active {
   #hero-img-3 { width: 80px; }
   #hero-img-4 { width: 56px; }
 }
+
+/* 모바일에서 라이트박스 1열 레이아웃 및 스크롤 가능하게 하기 */
+@media (max-width: 1024px) {
+  .lightbox-dialog {
+    grid-template-columns: 1fr;        /* 1열 배치 */
+    height: min(92vh, 900px);          /* 높이 제한 */
+  }
+  .lightbox-aside {
+    max-height: 40vh;                   /* 설명영역 높이 제한 */
+    overflow-y: auto;                   /* 세로 스크롤 허용 */
+    padding: 16px;                      /* 패딩으로 여백 확보 */
+  }
+  .lightbox-media {
+    height: 60vh;                       /* 이미지 영역의 높이 조정 */
+  }
+}
