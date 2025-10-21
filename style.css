@@ -782,3 +782,75 @@ body.about-page .tab-button.active {
 .social-link span {
     font-size: 14px; /* 텍스트 크기 */
 }
+
+/* 기존 CSS 유지, 아래는 모바일 최적화용 추가/수정 부분 */
+
+@media (max-width: 1024px) {
+  /* 전반적 레이아웃 부드럽게 */
+  .intro-page { padding: 0; }
+  .intro-container h1 { font-size: 32px; }
+  .intro-container h3 { font-size: 20px; }
+
+  /* 메인 히어로 글자 크기 조정 */
+  .hero h1 { font-size: 34px; }
+  .hero p { font-size: 15px; }
+
+  /* 카드/그리드 반응형: 3열 → 2열 */
+  .card-grid { grid-template-columns: repeat(2, 1fr); }
+  .gallery-item { width: 100%; height: 260px; }
+
+  /* 라이트박스 버튼 위치/크기 재배치 필요 시 여기에 추가 */
+
+  /* 헤더 아이템 간격 줄이기 */
+  .header-inner { padding: 0 20px; }
+
+  /* 필터/탭 메뉴 여백 축소 */
+  .category-nav { gap: 20px; padding: 12px 8px; }
+  .category-nav .tab-link { padding: 6px 12px; font-size: 14px; }
+
+  /* 탭 버튼 활성 상태 더 쉽게 누를 수 있도록 간격 증가(필요 시 조정) */
+  .tab-button { padding: 12px 14px; font-size: 14px; }
+
+  /* 라이트박스 컨테이너 높이 제한 필요시 */
+  .lightbox-dialog { width: min(96vw, 940px); height: min(88vh, 860px); }
+
+  /* 라이트박스 미디어 영역 비율 조정 */
+  .lightbox-media { height: 70%; }
+
+  /* 모바일에서도 1행 레이아웃 유지 시 글자 간격 보정 */
+  #overview .about-content { flex-direction: column; gap: 16px; }
+  #overview .about-content p { font-size: 14px; line-height: 1.7; }
+
+  /* 섹션 간격 줄이기 */
+  .section { padding: 80px 0; }
+}
+
+@media (max-width: 820px) {
+  /* 더 구체적인 모바일 최적화 */
+
+  /* hero 텍스트 더 작게, 간격 축소 */
+  .hero h1 { font-size: 28px; }
+  .hero p { font-size: 14px; }
+
+  /* 히어로 배경 이미지의 위치/크기 약간 조정 가능 */
+  #hero-img-1 { width: 150px; top: 12%; left: 6%; transform: rotate(-12deg); }
+  #hero-img-2 { width: 120px; top: 58%; left: 28%; transform: rotate(4deg); }
+  #hero-img-3 { width: 180px; top: 8%; right: 10%; transform: rotate(8deg); }
+  #hero-img-4 { width: 150px; bottom: 8%; right: 8%; transform: rotate(-4deg); }
+
+  /* 1열 레이아웃으로 컨텐츠 배치가 더 안정적이도록 여백 감소 */
+  .section { padding: 90px 0; }
+  .section-header h2 { font-size: 28px; }
+  .section-header p { font-size: 15px; }
+
+  /* 카드 그리드 1열 전환(필요 시) */
+  .card-grid { grid-template-columns: 1fr; }
+
+  /* 라이트박스 네비게이션 버튼 크기 증가(터치 용) */
+  .lb-nav { width: 48px; height: 48px; font-size: 28px; }
+
+  /* 라이트박스 미디어 비율 더 큰 화면 확보 */
+  .lightbox-media { height: 60%; }
+
+  /* 2단 레이아웃이 필요하면 여기에 추가 조정 */
+}
