@@ -896,3 +896,16 @@ body.about-page .tab-button.active {
     display: none !important;
   }
 }
+
+@media (max-width: 820px) {
+  #hero-img-1 { width: 90px; }
+  #hero-img-2 { width: 70px; }
+  #hero-img-3 { width: 110px; }
+  #hero-img-4 { width: 80px; }
+}
+@media (max-width: 600px) {
+  #hero-img-1 { width: 64px; }
+  #hero-img-2 { width: 52px; }
+  #hero-img-3 { width: 80px; }
+  #hero-img-4 { width: 56px; }
+}
